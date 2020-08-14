@@ -6,9 +6,6 @@
   "bin": {
     "git-switch": "./bin/git-switch.js"
   },
-  "publishConfig": { 
-      "registry": "https://npm.pkg.github.com/" 
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/dotomaz/git-switch.git"
