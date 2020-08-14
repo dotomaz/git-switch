@@ -1,6 +1,6 @@
 {
-  "name": "git-switch",
-  "version": "0.0.1",
+  "name": "@dotomaz/git-switch",
+  "version": "0.0.3",
   "description": "Command that switches between latest branches that you are working on.",
   "main": "bin/git-switch.js",
   "bin": {
@@ -9,7 +9,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/dotomaz/git-switch.git"
-},
+  },
   "scripts": {
     "start": "node bin/git-switch.js"
   },
@@ -19,7 +19,7 @@
     "latest",
     "switch"
   ],
-  "author": "@dotomaz",
+  "author": "Tomaž Dobrišek (dotomaz@gmail.com)",
   "license": "MIT",
   "dependencies": {
     "inquirer": "^7.3.3"
