@@ -1,11 +1,20 @@
 {
-  "name": "git-last",
+  "name": "git-switch",
   "version": "0.0.1",
   "description": "Command that switches between latest branches that you are working on.",
-  "main": "index.js",
+  "main": "bin/git-switch.js",
+  "bin": {
+    "git-switch": "./bin/git-switch.js"
+  },
+  "publishConfig": { 
+      "registry": "https://npm.pkg.github.com/" 
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dotomaz/git-switch.git"
+},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "history": "node index.js"
+    "start": "node bin/git-switch.js"
   },
   "keywords": [
     "git",
@@ -14,5 +23,8 @@
     "switch"
   ],
   "author": "@dotomaz",
-  "license": "ISC"
+  "license": "MIT",
+  "dependencies": {
+    "inquirer": "^7.3.3"
+  }
 }
