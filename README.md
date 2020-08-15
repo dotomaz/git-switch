@@ -26,6 +26,8 @@ git-switch
 ## Usage
 Just run the command inside a git repo.
 
+![Usage](usage.gif?raw=true "Usage")
+
 ```sh
 git-switch --help
 ```
