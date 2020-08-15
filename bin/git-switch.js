@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-console */
 
 const chalk = require('chalk');
 const util = require('util');
@@ -12,39 +13,6 @@ const argList = process.argv.splice(2);
 let exclude = [];
 let limit = 10;
 
-if (argList && !!argList.length) {
-    argList
-        .map((arg) => {
-            const [name, value] = arg.split('=');
-            return { name, value };
-        })
-        .forEach((arg) => {
-            switch (arg.name.toLowerCase()) {
-                case '--help':
-                case '-h':
-                    showHelp();
-                    process.exit();
-                    break;
-                case '--version':
-                case '-v':
-                    console.log(config.version);
-                    process.exit();
-                    break;
-                case '--exclude':
-                    exclude = arg.value
-                        .split(',')
-                        .map((val) => val.trim())
-                        .filter((val) => !!val);
-                    break;
-                case '--limit':
-                    if (arg.value && !isNaN(+arg.value)) {
-                        limit = +arg.value;
-                    }
-                    break;
-            }
-        });
-}
-
 function showHelp() {
     console.log('Usage:');
     console.log(chalk.green('   npx @dotomaz/git-switch [options]'));
@@ -53,10 +21,10 @@ function showHelp() {
     console.log(chalk.green('   git switch [options]'));
     console.log();
     console.log('Options:');
-    console.log(chalk.green('   -v, --version                 ') + ': Display installed version');
-    console.log(chalk.green('   -h, --help                    ') + ': Display this information');
-    console.log(chalk.green('   --exclude=branch1,branch2,... ') + ': List of branches to exclude');
-    console.log(chalk.green('   --limit=n                     ') + ': Return [n] last used branches');
+    console.log(`${chalk.green('   -v, --version                 ')}: Display installed version`);
+    console.log(`${chalk.green('   -h, --help                    ')}: Display this information`);
+    console.log(`${chalk.green('   --exclude=branch1,branch2,... ')}: List of branches to exclude`);
+    console.log(`${chalk.green('   --limit=n                     ')}: Return [n] last used branches`);
 }
 
 async function gitCheckout(branch) {
@@ -70,6 +38,7 @@ async function gitCheckout(branch) {
 }
 
 async function getBranchHistory() {
+    let results;
     const { stdout, stderr } = await exec(GIT_HISTORY_CMD);
 
     if (!stderr) {
@@ -83,7 +52,7 @@ async function getBranchHistory() {
             list = list.splice(0, limit);
         }
 
-        return await inquirer.prompt([
+        results = await inquirer.prompt([
             {
                 type: 'list',
                 name: 'branch',
@@ -93,6 +62,8 @@ async function getBranchHistory() {
             },
         ]);
     }
+
+    return results;
 }
 
 async function gitSwitch() {
@@ -105,6 +76,41 @@ async function gitSwitch() {
     } catch (e) {
         console.error(e);
     }
+}
+
+if (argList && !!argList.length) {
+    argList
+        .map((arg) => {
+            const [name, value] = arg.split('=');
+            return { name, value };
+        })
+        .forEach((arg) => {
+            switch (arg.name.toLowerCase()) {
+            case '--help':
+            case '-h':
+                showHelp();
+                process.exit();
+                break;
+            case '--version':
+            case '-v':
+                console.log(config.version);
+                process.exit();
+                break;
+            case '--exclude':
+                exclude = arg.value
+                    .split(',')
+                    .map((val) => val.trim())
+                    .filter((val) => !!val);
+                break;
+            case '--limit':
+                if (arg.value && !Number.isNaN(+arg.value)) {
+                    limit = +arg.value;
+                }
+                break;
+            default:
+                break;
+            }
+        });
 }
 
 gitSwitch();
