@@ -8,6 +8,7 @@ const exec = util.promisify(require('child_process').exec);
 const config = require('../package.json');
 
 const GIT_HISTORY_CMD = `git reflog | egrep -io "moving from ([^[:space:]]+)" | awk '{ print $3 }' | awk ' !x[$0]++' | egrep -v '^[a-f0-9]{40}$' | head -n20 "$@"`;
+const GIT_CHECKOUT_CMD = 'git checkout';
 const argList = process.argv.splice(2);
 
 let exclude = [];
@@ -29,7 +30,7 @@ function showHelp() {
 
 async function gitCheckout(branch) {
     try {
-        const { stdout, stderr } = await exec(`git checkout ${branch}`);
+        const { stdout, stderr } = await exec(`${GIT_CHECKOUT_CMD} ${branch}`);
         console.log(stdout);
         console.log(stderr);
     } catch (e) {
