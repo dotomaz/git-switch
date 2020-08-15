@@ -16,10 +16,10 @@ The easiest way is to use `npx`.
 npx @dotomaz/git-switch
 ```
 
-You can also install it globally.
+If you are using it frequently it might make sense to install it globally.
 
 ```sh
-npm i -g @dotomaz/git-witch
+npm i -g @dotomaz/git-switch
 git-switch
 ```
 
